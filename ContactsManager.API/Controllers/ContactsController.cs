@@ -14,12 +14,10 @@
     public class ContactsController : ControllerBase
     {
 
-        private readonly ILogger<ContactsController> logger;
         private readonly IContactsManagerService service;
 
-        public ContactsController(IContactsManagerService service, ILogger<ContactsController> logger)
+        public ContactsController(IContactsManagerService service)
         {
-            this.logger = logger;
             this.service = service;
         }
 
@@ -33,7 +31,7 @@
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(ContactDto), 200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<ContactDto>>> GetContact(int id)
+        public async Task<ActionResult<ContactDto>> GetContact(int id)
         {
             var result = await service.GetContactAsync(id);
             if (result == null) {

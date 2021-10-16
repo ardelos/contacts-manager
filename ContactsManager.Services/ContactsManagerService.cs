@@ -32,7 +32,7 @@
         }
         public async Task<ContactDto> CreateContactAsync(ContactDto dto)
         {
-            await AssertEmailIsUnique(dto.Email);
+            //await AssertEmailIsUnique(dto.Email);
             var contact = new Contact
             {
                 FirstName = dto.FirstName,
@@ -40,7 +40,7 @@
                 DateOfBirth = dto.DateOfBirth,
                 Email = dto.Email
             };
-            contact.AssertEntityValidationResult();
+            //contact.AssertEntityValidationResult();
             dataContext.Contacts.Add(contact);
             await SaveContextAsync();
             return contact.ToDto();

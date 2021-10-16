@@ -10,11 +10,15 @@
 
     public class DataContext : DbContext
     {
+        public DataContext()
+        {
+
+        }
         public DataContext(DbContextOptions<DataContext> options)
                   : base(options)
         {
         }
-        public DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<Contact> Contacts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

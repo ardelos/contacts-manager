@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactsManager.Services", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactsManager.Web", "ContactsManager.Web\ContactsManager.Web.csproj", "{7DFA8D0F-A872-4302-9E13-764869BF3702}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractsManager.Tests", "ContractsManager.Tests\ContractsManager.Tests.csproj", "{7AEF4C75-D67F-4F06-AF7C-5A3AA3821383}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7DFA8D0F-A872-4302-9E13-764869BF3702}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DFA8D0F-A872-4302-9E13-764869BF3702}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DFA8D0F-A872-4302-9E13-764869BF3702}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AEF4C75-D67F-4F06-AF7C-5A3AA3821383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AEF4C75-D67F-4F06-AF7C-5A3AA3821383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AEF4C75-D67F-4F06-AF7C-5A3AA3821383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AEF4C75-D67F-4F06-AF7C-5A3AA3821383}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
