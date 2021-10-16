@@ -1,0 +1,50 @@
+<div>
+  <button mat-stroked-button color="primary" (click)="goBack()">Back</button>
+</div>
+<div *ngIf="!(loading$ | async)">
+  <div *ngIf="(contact$ | async) as contact">
+    <div [formGroup]="contactForm" fxLayout="column wrap" fxLayoutAlign="center center" [connectForm]="contact">
+      <mat-card class='mat-card-header'>
+        <mat-card-header>Edit Contact: {{contact?.firstName}} {{contact?.surname}}</mat-card-header>
+        <mat-card-content>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-content>
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input formControlName="firstName" matInput placeholder="First Name" value="{{contact.firstName}}">
+            <mat-error *ngIf="hasError('firstName', 'maxlength')">You have more than 100 characters</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Surname</mat-label>
+            <input formControlName="surname" matInput placeholder="Surname" value="{{contact.surname}}">
+            <mat-error *ngIf="hasError('surname', 'maxlength')">You have more than 100 characters</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Date Of Birth</mat-label>
+            <input matInput [matDatepicker]="picker" placeholder="Date of birth" formControlName="dateOfBirth"
+              id="dateOfBirth" readonly (click)="picker.open()" value="{{contact.dateOfBirth}}">
+            <mat-error *ngIf="hasError('dateOfBirth', 'required')">Date Of Birth is required</mat-error>
+            <mat-error *ngIf="hasError('dateOfBirth', 'validDateOfBirth')">Invalid Date Of Birth</mat-error>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput placeholder="Email" value="{{contact.email}}">
+            <mat-error *ngIf="hasError('email', 'required')">Email is required</mat-error>
+            <mat-error *ngIf="hasError('email', 'email')">Invalid email</mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+          <button *ngIf="(isNew$ | async)" mat-stroked-button color="primary" mat-button
+            [disabled]="contactForm.invalid" (click)="upsert(actionType.Create)">Create</button>
+          <button *ngIf="!(isNew$ | async)" mat-stroked-button color="primary" mat-button
+            [disabled]="contactForm.invalid" (click)="upsert(actionType.Edit)">Update</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

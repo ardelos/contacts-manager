@@ -1,0 +1,72 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+$base-accent-color:  #6c7ae0;
+$base-clear-color:  white;
+$base-background-color:#d5e0f9;
+$base-grid-row-color:#F5F6FF;
+
+
+
+html,
+body {
+  margin: 0;
+  padding: 30px;
+  background: $base-background-color
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  .mat-table {
+    background-color:$base-clear-color;
+    width: 100%;
+  }
+
+  .mat-header-cell {
+    justify-content: center;
+    background-color: $base-accent-color;
+    color: $base-clear-color;
+    font-size: larger;
+  }
+
+  .mat-row {
+    border-bottom-color: $base-grid-row-color;
+  }
+
+  .mat-row .mat-cell {
+    cursor: pointer;
+  }
+
+  .mat-row:hover {
+    background-color: $base-grid-row-color;
+  }
+
+  .mat-card-header {
+    background-color: $base-accent-color;
+    color: $base-clear-color;
+    font-size: larger;
+  }
+
+  .mat-form-field {
+    margin-right: 10px;
+  }
+
+  .mat-stroked-button {
+    margin: 5px 0px;
+  }
+
+  .header {
+    display: inline-flex;
+    h1 {
+      color: $base-accent-color;
+      padding-left: 10px;
+    }
+    .mat-icon {
+      color: $base-accent-color;
+      font-size: xx-large;
+    }
+  }
+}
