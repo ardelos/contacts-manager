@@ -1,5 +1,5 @@
 import { createSelector, createFeatureSelector } from "@ngrx/store";
-import { AppState } from "../state/clients.state";
+import { AppState } from "../state/contacts.state";
 
 const getAppState = createFeatureSelector<AppState>('appstate');
 
@@ -21,4 +21,9 @@ export const loading = createSelector(
 export const isNew = createSelector(
     getAppState,
     state => state.isNew
+);
+
+export const getNotification = createSelector(
+    getAppState,
+    state => state.notification
 );

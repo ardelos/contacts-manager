@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="!(loading$ | async)">
   <div *ngIf="(contact$ | async) as contact">
-    <div [formGroup]="contactForm" fxLayout="column wrap" fxLayoutAlign="center center" [connectForm]="contact">
+    <div [formGroup]="contactForm" fxLayout="column wrap" fxLayoutAlign="center center" [asyncFormData]="contact">
       <mat-card class='mat-card-header'>
         <mat-card-header>Edit Contact: {{contact?.firstName}} {{contact?.surname}}</mat-card-header>
         <mat-card-content>
@@ -15,11 +15,13 @@
             <mat-label>First Name</mat-label>
             <input formControlName="firstName" matInput placeholder="First Name" value="{{contact.firstName}}">
             <mat-error *ngIf="hasError('firstName', 'maxlength')">You have more than 100 characters</mat-error>
+            <mat-error *ngIf="hasError('firstName', 'required')">Firstname is required</mat-error>
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>Surname</mat-label>
             <input formControlName="surname" matInput placeholder="Surname" value="{{contact.surname}}">
             <mat-error *ngIf="hasError('surname', 'maxlength')">You have more than 100 characters</mat-error>
+            <mat-error *ngIf="hasError('surname', 'required')">Surname is required</mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -47,4 +49,9 @@
       </mat-card>
     </div>
   </div>
+</div>
+<div>
+  <mat-card *ngIf="(notification$ | async) as info">
+  <mat-card-content [ngClass]="{'infoError': info.isError}">{{info.text}}</mat-card-content>
+  </mat-card>
 </div>

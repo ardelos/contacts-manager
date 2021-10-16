@@ -7,8 +7,8 @@ import {  Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Contact } from 'src/app/shared/models/contact.model';
 import { NavigateContactDetails, NavigateNewContactDetails } from 'src/app/shared/store/actions/contacts.action';
-import { getClients } from 'src/app/shared/store/selectors/clients.selectors';
-import { AppState } from 'src/app/shared/store/state/clients.state';
+import { getClients } from 'src/app/shared/store/selectors/contacts.selectors';
+import { AppState } from 'src/app/shared/store/state/contacts.state';
 
 @Component({
   selector: 'app-dataview',
@@ -16,43 +16,39 @@ import { AppState } from 'src/app/shared/store/state/clients.state';
   styleUrls: ['./dataview.component.scss']
 })
 
-export class DataviewComponent implements AfterViewInit, OnInit, OnDestroy {
+export class DataviewComponent implements OnInit, OnDestroy {
 
   onDestroy$ = new Subject<boolean>();
   displayedColumns: string[] = ["firstName", "surname", "dateOfBirth","email"];
-  contact: Contact[] = [];
+  contacts: Contact[] = [];
   dataSource: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngAfterViewInit() {
 
+  constructor(private router: Router, private store: Store<AppState>) {
+ 
   }
+
   ngOnInit() {
-    this.subscribeGetClients();
+    this.store.pipe(select(getClients))
+    .pipe(takeUntil(this.onDestroy$))
+    .subscribe(contacts => {
+      this.dataSource = new MatTableDataSource<Contact>(contacts);
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.next(true);
   }
 
-  constructor(private router: Router, private store: Store<AppState>) {
-  }
 
-
-  addNew =()=>{
+  addNew = () =>{
     this.store.dispatch(new NavigateNewContactDetails(this.router.url))
   }
   getClientDetails = (client: Contact) => {
     let id = client.id;
     this.store.dispatch(new NavigateContactDetails(this.router.url, id))
-  }
-  subscribeGetClients = () => {
-    this.store.pipe(select(getClients))
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(clients => {
-        this.dataSource = new MatTableDataSource<Contact>(clients);
-        this.dataSource.paginator = this.paginator;
-      });
   }
 }

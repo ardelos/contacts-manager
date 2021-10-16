@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { Contact } from 'src/app/shared/models/contact.model';
-import { CreateContactAction, HandleRouteNavigation, UpdateContactAction, UpdateContactSuccessAction } from 'src/app/shared/store/actions/contacts.action';
-import { getClient, isNew, loading } from 'src/app/shared/store/selectors/clients.selectors';
-import { AppState } from 'src/app/shared/store/state/clients.state';
+import { CreateContactAction, HandleRouteNavigation, UpdateContactAction } from 'src/app/shared/store/actions/contacts.action';
+import { getClient, getNotification, isNew, loading } from 'src/app/shared/store/selectors/contacts.selectors';
+import { AppState } from 'src/app/shared/store/state/contacts.state';
 import { Location } from '@angular/common';
 import { ActionType } from 'src/app/shared/models/contact.action-type.model';
+import { ActionNotification } from 'src/app/shared/models/notification.model';
 
 
 @Component({
@@ -27,17 +28,20 @@ export class DetailsComponent implements OnInit, OnDestroy {
   contact$: Observable<Contact>;
   onDestroy$ = new Subject<boolean>();
   isNew$: Observable<boolean> | undefined;
+  notification$: Observable<ActionNotification | undefined>;
+
   id: string ='';
   constructor(private store: Store<AppState>, private route: ActivatedRoute, private location: Location) {
 
     this.contactForm = new FormGroup({
-      firstName: new FormControl("", [Validators.maxLength(100)]),
-      surname: new FormControl("", [Validators.maxLength(100)]),
+      firstName: new FormControl("", [Validators.required,Validators.maxLength(100)]),
+      surname: new FormControl("", [Validators.required,Validators.maxLength(100)]),
       dateOfBirth: new FormControl(new Date(), [Validators.required, this.validatorDateOfBirth]),
       email: new FormControl("", [Validators.required, Validators.email])
     });
     this.contact$ = this.store.select(getClient);
     this.isNew$ = this.store.select(isNew);
+    this.notification$ = this.store.select(getNotification);
   }
 
   ngOnInit() {

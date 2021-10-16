@@ -21,7 +21,7 @@ import {MatInputModule} from '@angular/material/input'
 import {MatIconModule} from '@angular/material/icon'
 import {MatButtonModule} from '@angular/material/button'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {ConnectFormDirective  } from './shared/directives/data';
+import { AsyncFormDataDirective  } from './shared/directives/async.formdata.directive';
 import { ContactsReducer } from './shared/store/reducers/contacts.reducers';
 import { ContactsEffect } from './shared/store/effects/contacts.effect';
 import { ContactsService } from './shared/services/contacts-service';
@@ -41,7 +41,7 @@ const routes: Routes = [
     DetailsComponent,
     DashboardComponent,
     DataviewComponent,
-    ConnectFormDirective
+    AsyncFormDataDirective
   ],
   imports: [
     [RouterModule.forRoot(routes)],

@@ -1,10 +1,11 @@
 import { Action } from '@ngrx/store';
 import { ContactActionType } from '../../models/contact.action.model';
 import { Contact } from '../../models/contact.model';
+import { ActionNotification } from '../../models/notification.model';
 import { StoreActions } from '../actions/contacts.action';
-import { AppState } from '../state/clients.state';
+import { AppState } from '../state/contacts.state';
 
-export const initialState: AppState = { contacts: [], loading: false, contact: {} as Contact, isNew: false }
+export const initialState: AppState = { contacts: [], loading: false, contact: {} as Contact, isNew: false, notification : undefined}
 
 export function ContactsReducer(state: AppState = initialState, action: Action): AppState {
     const contactAction = action as StoreActions;
@@ -15,7 +16,8 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
             console.log('GET_CONTACTS');
             return {
                 ...state,
-                loading: true
+                loading: true,
+                notification: undefined
             }
         case ContactActionType.GET_CONTACTS_SUCCESS:
             console.log('GET_CONTACTS_SUCCESS');
@@ -29,7 +31,8 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
             return {
                 ...state,
                 contact: {} as Contact,
-                loading: true
+                loading: true,
+                notification: undefined
             }
         case ContactActionType.GET_CONTACT_SUCCESS:
             console.log('GET_CONTACT_SUCCESS');
@@ -44,7 +47,8 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
             return {
                 ...state,
                 contact: newContact,
-                loading: false
+                loading: false,
+                notification: undefined
             }
         case ContactActionType.CREATE_CONTACT_SUCCESS:
             console.log('CREATE_CONTACT_SUCCESS');
@@ -53,7 +57,8 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
             return {
                 ...state,
                 contacts: new_contacts,
-                loading: false
+                loading: false,
+                notification: {text:'Contact Created'} as ActionNotification
             }
         case ContactActionType.UPDATE_CONTACT_SUCCESS:
             console.log('UPDATE_CONTACT_SUCCESS');
@@ -65,14 +70,18 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
             return {
                 ...state,
                 contacts: update_contacts,
-                loading: false
+                loading: false,
+                notification: {isError: false, text:'Contact Updated'} as ActionNotification
             }
         case ContactActionType.ERROR:
             console.log('ERROR');
+            let error = `${contactAction.error}`;
+            console.log(contactAction.error)
             return {
                 ...state,
                 contacts: [],
-                loading: false
+                loading: false,
+                notification: {isError: true, text: error } as ActionNotification
             }
         case ContactActionType.NAVIGATE_NEW_CONTACT_DETAILS:
             console.log('NAVIGATE_NEW_CONTACT_DETAILS');

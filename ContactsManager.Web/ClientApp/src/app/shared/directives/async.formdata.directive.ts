@@ -1,9 +1,9 @@
 import { Directive, Input } from "@angular/core";
 import { FormGroupDirective } from "@angular/forms";
 
-@Directive({ selector: '[connectForm]' })
-export class ConnectFormDirective {
-  @Input('connectForm')
+@Directive({ selector: '[asyncFormData]' })
+export class AsyncFormDataDirective {
+  @Input('asyncFormData')
   set data(val: any) {
     if (val) {
       this.formGroupDirective.form.patchValue(val);

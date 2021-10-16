@@ -1,13 +1,14 @@
 import { Contact } from "../../models/contact.model";
+import { ActionNotification } from "../../models/notification.model";
 import { GetContactsAction, GetContactsSuccessAction, NewContactAction, UpdateContactSuccessAction } from "../actions/contacts.action";
-import { AppState } from "../state/clients.state";
+import { AppState } from "../state/contacts.state";
 import { ContactsReducer } from "./contacts.reducers";
 
 
-const initialState: AppState = { contacts: [], loading: false, contact: {} as Contact, isNew: false }
+const initialState: AppState = { contacts: [], loading: false, contact: {} as Contact, isNew: false, notification :{} as ActionNotification}
 
 
-describe('loadingStatusChangeGetContacts', () => {
+describe('Reducer loadingStatusChangeGetContacts', () => {
     it('should return loading true', () => {
         const loadContracts = new GetContactsAction();
         const newState = ContactsReducer(initialState, loadContracts);
@@ -15,7 +16,7 @@ describe('loadingStatusChangeGetContacts', () => {
     });
 });
 
-describe('getContacts', () => {
+describe('Reducer getContacts', () => {
     it('should populate entities from the array', () => {
         const contacts: Contact[] = [
             { id: 1, firstName: 'Name1', surname: 'Surname1', email: "text@email1.com", dateOfBirth: new Date(2000, 1, 1) },
@@ -31,7 +32,7 @@ describe('getContacts', () => {
     });
 });
 
-describe('newContact', () => {
+describe(' Reducer newContact', () => {
     it('should create new contact', () => {
         const state = ContactsReducer(initialState, new NewContactAction());
         expect(state.loading).toEqual(false);
@@ -39,7 +40,7 @@ describe('newContact', () => {
     });
 });
 
-describe('update', () => {
+describe('Reducer updateContact', () => {
     it('should update contact', () => {
         const contacts: Contact[] = [
             { id: 1, firstName: 'Name1', surname: 'Surname1', email: "text@email1.com", dateOfBirth: new Date(2000, 1, 1) },
@@ -58,7 +59,7 @@ describe('update', () => {
 
         expect(updated_state.contacts[index].firstName).toEqual(updated_contact.firstName);
         expect(updated_state.contacts[index].surname).toEqual(updated_contact.surname);
-        expect(updated_state.contacts[index].dateOfBirth).toEqual(updated_contact.dateOfBirth);
         expect(updated_state.contacts[index].email).toEqual(updated_contact.email);
+        expect(updated_state.contacts[index].dateOfBirth).toEqual(updated_contact.dateOfBirth);
     });
 });

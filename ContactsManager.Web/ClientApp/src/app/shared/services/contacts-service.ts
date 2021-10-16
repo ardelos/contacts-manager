@@ -63,13 +63,8 @@ export class ContactsService {
 
   // Error handling 
   handleError(error: { error: { message: string; }; status: any; message: any; }) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(errorMessage);
+
+    return throwError(error.error);
   }
 
 }
