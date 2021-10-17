@@ -5,7 +5,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-
+    /// <summary>
+    /// Data Transfer Object Extension Methods
+    /// </summary>
     public static class DtoExtensions
     {
         public static ContactDto ToDto(this Contact client)

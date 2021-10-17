@@ -20,16 +20,35 @@
         {
             this.dataContext = context;
         }
+
+
+        /// <summary>
+        /// Return list of all available contacts as Dto's
+        /// </summary>
+        /// <returns>List of contacts</returns>
         public async Task<IEnumerable<ContactDto>> GetContactsAsync()
         {
             var contacts = await dataContext.Contacts.ToListAsync();
             return contacts.ToDto();
         }
+
+        /// <summary>
+        /// Return contact match for id as Dto's
+        /// Throw error if not found.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ContactDto or NotFoundException</returns>
         public async Task<ContactDto> GetContactAsync(int id)
         {
             var contact = await GetContactOrThrowAsync(id);
             return contact?.ToDto();
         }
+
+        /// <summary>
+        /// Create new contact with pre and post initialisation validation;
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns>Created contact as Dto</returns>
         public async Task<ContactDto> CreateContactAsync(ContactDto dto)
         {
             await AssertEmailIsUnique(dto.Email);
@@ -45,6 +64,14 @@
             await SaveContextAsync();
             return contact.ToDto();
         }
+
+
+        /// <summary>
+        /// Update selected contact, if found,  with pre and post initialisation validation;
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <param name="id"></param>
+        /// <returns>Updated contact</returns>
         public async Task<ContactDto> UpdateContactAsync(ContactDto dto, int id)
         {
 
