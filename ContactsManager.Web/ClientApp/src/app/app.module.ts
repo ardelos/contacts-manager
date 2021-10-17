@@ -26,10 +26,10 @@ import { ContactsReducer } from './shared/store/reducers/contacts.reducers';
 import { ContactsEffect } from './shared/store/effects/contacts.effect';
 import { ContactsService } from './shared/services/contacts-service';
 const routes: Routes = [
-  { path: "", redirectTo: "/clients", pathMatch: "full" },
-  { path: "clients", component: DashboardComponent },
-  { path: "clients/:id", component: DetailsComponent },
-  { path: "clients/new", component: DetailsComponent },
+  { path: "", redirectTo: "/contacts", pathMatch: "full" },
+  { path: "contacts", component: DashboardComponent },
+  { path: "contacts/:id", component: DetailsComponent },
+  { path: "contacts/new", component: DetailsComponent },
   { path: "*", component: DashboardComponent },
 ];
 

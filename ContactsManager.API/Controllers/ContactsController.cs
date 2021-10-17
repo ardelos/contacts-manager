@@ -4,9 +4,7 @@
     using ContactsManager.Services.Interfaces;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using System.Collections.Generic;
-    using System.Net;
     using System.Threading.Tasks;
 
     [ApiController]
@@ -43,7 +41,7 @@
         [HttpPost]
         [ProducesResponseType(typeof(ContactDto), 201)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<ContactDto>>> CreateContact([FromBody] ContactDto client)
+        public async Task<ActionResult<ContactDto>> CreateContact([FromBody] ContactDto client)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var created = await service.CreateContactAsync(client);
@@ -53,7 +51,7 @@
         [HttpPut("{id:int}")]
         [ProducesResponseType(typeof(ContactDto), 200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<ContactDto>>> UpdateContact([FromBody] ContactDto client, int id)
+        public async Task<ActionResult<ContactDto>> UpdateContact([FromBody] ContactDto client, int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var updated = await service.UpdateContactAsync(client, id);

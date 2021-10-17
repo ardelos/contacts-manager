@@ -27,12 +27,12 @@
         }
         public async Task<ContactDto> GetContactAsync(int id)
         {
-            var client = await dataContext.Contacts.FirstOrDefaultAsync(c => c.Id == id);
-            return client?.ToDto();
+            var contact = await GetContactOrThrowAsync(id);
+            return contact?.ToDto();
         }
         public async Task<ContactDto> CreateContactAsync(ContactDto dto)
         {
-            //await AssertEmailIsUnique(dto.Email);
+            await AssertEmailIsUnique(dto.Email);
             var contact = new Contact
             {
                 FirstName = dto.FirstName,
@@ -40,7 +40,7 @@
                 DateOfBirth = dto.DateOfBirth,
                 Email = dto.Email
             };
-            //contact.AssertEntityValidationResult();
+            contact.AssertEntityValidationResult();
             dataContext.Contacts.Add(contact);
             await SaveContextAsync();
             return contact.ToDto();
@@ -49,12 +49,7 @@
         {
 
             await AssertEmailIsUnique(dto.Email, id);
-            
-            var contact = await dataContext.Contacts.FirstOrDefaultAsync(c=>c.Id == id);
-            if (contact == null)
-            {
-                throw new NotFoundException($"Client with Id:{id} not found");
-            }
+            var contact = await GetContactOrThrowAsync(id);
 
             contact.FirstName = dto.FirstName;
             contact.Surname = dto.Surname;
@@ -67,6 +62,22 @@
             return contact.ToDto();
         }
 
+
+
+        /// <summary>
+        /// Find contact by id or throw error if not found
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        async Task<Contact> GetContactOrThrowAsync(int id)
+        {
+            var contact = await dataContext.Contacts.FirstOrDefaultAsync(c => c.Id == id);
+            if (contact == null)
+            {
+                throw new NotFoundException($"Client with Id:{id} not found");
+            }
+            return contact;
+        }
 
         /// <summary>
         /// Validate Email early to prevent constraint check error. If Email is empty entity validation will prevent saving as well
@@ -82,7 +93,7 @@
             throw new BadRequest($"Client with Email: {email} already exists in the database");
         }
 
-       
+    
 
         /// <summary>
         /// Save Context and custom exception handler
