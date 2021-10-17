@@ -19,23 +19,22 @@ import { ActionNotification } from 'src/app/shared/models/notification.model';
 })
 
 
-export class DetailsComponent implements OnInit, OnDestroy {
+export class DetailsComponent implements OnInit {
 
   public contactForm: FormGroup;
 
   public actionType: typeof ActionType = ActionType;
   loading$: Observable<boolean> | undefined;
   contact$: Observable<Contact>;
-  onDestroy$ = new Subject<boolean>();
   isNew$: Observable<boolean> | undefined;
   notification$: Observable<ActionNotification | undefined>;
 
-  id: string ='';
+  id: string = '';
   constructor(private store: Store<AppState>, private route: ActivatedRoute, private location: Location) {
 
     this.contactForm = new FormGroup({
-      firstName: new FormControl("", [Validators.required,Validators.maxLength(100)]),
-      surname: new FormControl("", [Validators.required,Validators.maxLength(100)]),
+      firstName: new FormControl("", [Validators.required, Validators.maxLength(100)]),
+      surname: new FormControl("", [Validators.required, Validators.maxLength(100)]),
       dateOfBirth: new FormControl(new Date(), [Validators.required, this.validatorDateOfBirth]),
       email: new FormControl("", [Validators.required, Validators.email])
     });
@@ -45,24 +44,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('created')
     this.loading$ = this.store.select(loading);
     const id = this.route.snapshot.params.id;
     this.store.dispatch(new HandleRouteNavigation(id));
 
   }
 
-  ngOnDestroy(): void {
-    console.log('destroyed')
-    this.onDestroy$.next(true);
-  }
-
   goBack = () => {
-    this.onDestroy$.next(true);
     this.location.back();
   }
 
-  upsert = (action:ActionType) => {
+  upsert = (action: ActionType) => {
     let contact = this.contactForm.value as Contact;
     if (!contact) return;
 
@@ -71,7 +63,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       return;
     }
     const id = this.route.snapshot.params.id;
-    this.store.dispatch(new UpdateContactAction(id, contact)); 
+    this.store.dispatch(new UpdateContactAction(id, contact));
   }
   hasError = (controlName: string, errorName: string) => {
     return this.contactForm.controls[controlName].hasError(errorName);

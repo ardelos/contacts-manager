@@ -53,7 +53,6 @@ export class ContactsService {
 
   // HttpClient API put() method => Update contact
   updateContact(id: string, contact: Contact): Observable<Contact> {
-    console.log('OUT:'+id);
    return this.http.put<Contact>(this.apiURL + `/contacts/${id}`, JSON.stringify(contact), this.httpOptions)
      .pipe(
        retry(1),
