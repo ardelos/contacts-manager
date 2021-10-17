@@ -35,7 +35,7 @@
         {
             var result = await service.GetContactAsync(id);
             if (result == null) {
-                return NotFound($"Client with Id:{id} not found");
+                return NotFound($"Contact with Id:{id} not found");
              }
             return Ok(result);
         }
@@ -43,7 +43,7 @@
         [HttpPost]
         [ProducesResponseType(typeof(ContactDto), 201)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<ContactDto>>> CreateClient([FromBody] ContactDto client)
+        public async Task<ActionResult<IEnumerable<ContactDto>>> CreateContact([FromBody] ContactDto client)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var created = await service.CreateContactAsync(client);
@@ -53,7 +53,7 @@
         [HttpPut("{id:int}")]
         [ProducesResponseType(typeof(ContactDto), 200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<IEnumerable<ContactDto>>> UpdateClient([FromBody] ContactDto client, int id)
+        public async Task<ActionResult<IEnumerable<ContactDto>>> UpdateContact([FromBody] ContactDto client, int id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var updated = await service.UpdateContactAsync(client, id);

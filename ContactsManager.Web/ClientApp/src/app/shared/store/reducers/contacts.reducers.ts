@@ -13,21 +13,21 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
     switch (contactAction.type) {
 
         case ContactActionType.GET_CONTACTS:
-            console.log('GET_CONTACTS');
+            //console.log('GET_CONTACTS');
             return {
                 ...state,
                 loading: true,
                 notification: undefined
             }
         case ContactActionType.GET_CONTACTS_SUCCESS:
-            console.log('GET_CONTACTS_SUCCESS');
+            //console.log('GET_CONTACTS_SUCCESS');
             return {
                 ...state,
                 contacts: contactAction.payload,
                 loading: false
             }
         case ContactActionType.GET_CONTACT:
-            console.log('GET_CONTACT');
+            //console.log('GET_CONTACT');
             return {
                 ...state,
                 contact: {} as Contact,
@@ -35,14 +35,14 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
                 notification: undefined
             }
         case ContactActionType.GET_CONTACT_SUCCESS:
-            console.log('GET_CONTACT_SUCCESS');
+            //console.log('GET_CONTACT_SUCCESS');
             return {
                 ...state,
                 contact: contactAction.payload,
                 loading: false
             }
         case ContactActionType.NEW_CONTACT:
-            console.log('NEW_CONTACT');
+            //console.log('NEW_CONTACT');
             const newContact = {} as Contact;
             return {
                 ...state,
@@ -51,7 +51,7 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
                 notification: undefined
             }
         case ContactActionType.CREATE_CONTACT_SUCCESS:
-            console.log('CREATE_CONTACT_SUCCESS');
+            //console.log('CREATE_CONTACT_SUCCESS');
             let new_contacts = [...state.contacts];
             new_contacts.unshift(contactAction.payload);
             return {
@@ -61,7 +61,7 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
                 notification: {text:'Contact Created'} as ActionNotification
             }
         case ContactActionType.UPDATE_CONTACT_SUCCESS:
-            console.log('UPDATE_CONTACT_SUCCESS');
+            //console.log('UPDATE_CONTACT_SUCCESS');
             var index = state.contacts.findIndex(item => item.id === contactAction.payload.id);
             let update_contacts = [...state.contacts];
             if (index != 0) {
@@ -74,9 +74,9 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
                 notification: {isError: false, text:'Contact Updated'} as ActionNotification
             }
         case ContactActionType.ERROR:
-            console.log('ERROR');
+            //console.log('ERROR');
             let error = `${contactAction.error}`;
-            console.log(contactAction.error)
+            //console.log(contactAction.error)
             return {
                 ...state,
                 contacts: [],
@@ -84,7 +84,7 @@ export function ContactsReducer(state: AppState = initialState, action: Action):
                 notification: {isError: true, text: error } as ActionNotification
             }
         case ContactActionType.NAVIGATE_NEW_CONTACT_DETAILS:
-            console.log('NAVIGATE_NEW_CONTACT_DETAILS');
+            //console.log('NAVIGATE_NEW_CONTACT_DETAILS');
             return {
                 ...state,
                 loading: false

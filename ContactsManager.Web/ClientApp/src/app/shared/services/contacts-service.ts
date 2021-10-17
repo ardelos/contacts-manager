@@ -62,7 +62,7 @@ export class ContactsService {
   }
 
   // Error handling 
-  handleError(error: { error: { message: string; }; status: any; message: any; }) {
+  handleError(error: { error: { message: string}; status: any; message: any; }) {
 
     return throwError(error.error);
   }
