@@ -40,7 +40,7 @@ jobs:
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_API  }} # Define secret variable in repository settings as per action documentation
           package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH_API }}/contactsmanager'
           
-  build-and-deploy:
+  build-and-archive-ui:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -56,9 +56,25 @@ jobs:
         cd ${{ env.AZURE_WEBAPP_PATH_WEB }}
         npm install
         npm run build --if-present
-    - name: 'Deploy to Azure WebApp'
-      uses: azure/webapps-deploy@v1
+    - name: Archive build
+      uses: actions/upload-artifact@v1
+      if: success()
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME_WEB }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_WEB }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH_WEB }}
+        name: deploy_dist
+        path: dist
+  deploy-ui:
+    runs-on: ubuntu-latest
+    needs: build-and-archive-ui
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Download build
+        uses: actions/download-artifact@v1
+        with:
+          name: deploy_dist        
+      - name: 'Deploy to Azure WebApp'
+        uses: azure/webapps-deploy@v1
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME_WEB }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_WEB }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH_WEB }}
