@@ -8,6 +8,7 @@ env:
   DOTNET_VERSION: '5.x'           # set this to the dot net version to use
 
   AZURE_WEBAPP_NAME_WEB: ContactsManager-Web
+  AZURE_WEBAPP_PATH_WEB: 'ContactsManager.Web/ClientApp/'
   AZURE_WEBAPP_PACKAGE_PATH_WEB: './dist'
   NODE_VERSION: '14.x'
 jobs:
@@ -49,7 +50,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
     - name: Install dependencies
-      run: npm install
+      run: npm --prefix  ${{ env.AZURE_WEBAPP_PATH_WEB install}}
     - name: Build
       run: npm run build -- --prod
     - name: 'Deploy to Azure WebApp'
