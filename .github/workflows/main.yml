@@ -9,7 +9,7 @@ env:
 
   AZURE_WEBAPP_NAME_WEB: ContactsManager-Web
   AZURE_WEBAPP_PATH_WEB: 'ContactsManager.Web/ClientApp'
-  AZURE_WEBAPP_PACKAGE_PATH_WEB: './dist'
+  AZURE_WEBAPP_PACKAGE_PATH_WEB: 'dist'
   NODE_VERSION: '14.x'
 jobs:
   build-and-deploy-api:
