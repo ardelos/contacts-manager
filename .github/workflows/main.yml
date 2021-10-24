@@ -59,7 +59,7 @@ jobs:
       if: success()
       with:
         name: deploy_dist
-        path: dist
+        path: ${{ env.AZURE_WEBAPP_PATH_WEB }}/ dist
   deploy-ui:
     runs-on: ubuntu-latest
     needs: build-and-archive-ui
