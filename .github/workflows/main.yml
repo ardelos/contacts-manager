@@ -3,12 +3,16 @@ name: .NET Core CI
 on: [push]
 
 env:
-  AZURE_WEBAPP_NAME: Contacts-Manager-API    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: 'ContactsManager.API'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_NAME_API: ContactsManager-API    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH_API: 'ContactsManager.API'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5.x'           # set this to the dot net version to use
 
+  AZURE_WEBAPP_NAME_WEB: ContactsManager-Web
+  AZURE_WEBAPP_PATH_WEB: 'ContactsManager.Web/ClientApp'
+  AZURE_WEBAPP_PACKAGE_PATH_WEB: 'dist'
+  NODE_VERSION: '14.x'
 jobs:
-  build:
+  build-and-deploy-api:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,14 +28,51 @@ jobs:
       # Run dotnet build and publish
       - name: dotnet build and publish
         run: |
-          dotnet restore
-          dotnet build --configuration Release
-          dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/contactsmanager' 
-          
+          dotnet restore ContactsManager.API
+          dotnet build ContactsManager.API --configuration Release
+          dotnet publish ContactsManager.API -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH_API }}/contactsmanager' 
+
       # Deploy to Azure Web apps
       - name: 'Run Azure webapp deploy action using publish profile credentials'
         uses: azure/webapps-deploy@v2
         with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+          app-name: ${{ env.AZURE_WEBAPP_NAME_API }} # Replace with your app name
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_API  }} # Define secret variable in repository settings as per action documentation
-          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/contactsmanager'
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH_API }}/contactsmanager'
+          
+  build-and-archive-ui:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name : Install
+      run: |
+        cd ${{ env.AZURE_WEBAPP_PATH_WEB }}
+        npm install
+        npm run build --if-present
+    - name: Archive build
+      uses: actions/upload-artifact@v1
+      if: success()
+      with:
+        name: deploy_dist
+        path: /home/runner/work/contacts-manager/contacts-manager/ContactsManager.Web/ClientApp/dist
+  deploy-ui:
+    runs-on: ubuntu-latest
+    needs: build-and-archive-ui
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Download build
+        uses: actions/download-artifact@v1
+        with:
+          name: deploy_dist        
+      - name: 'Deploy to Azure WebApp'
+        uses: azure/webapps-deploy@v1
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME_WEB }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_WEB }}
+          package: deploy_dist
