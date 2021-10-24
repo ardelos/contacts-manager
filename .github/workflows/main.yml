@@ -59,7 +59,7 @@ jobs:
       if: success()
       with:
         name: deploy_dist
-        path: ./dist
+        path: /home/runner/work/contacts-manager/dist
   deploy-ui:
     runs-on: ubuntu-latest
     needs: build-and-archive-ui
