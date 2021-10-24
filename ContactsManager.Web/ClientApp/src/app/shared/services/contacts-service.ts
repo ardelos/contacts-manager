@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Contact } from '../models/contact.model';
 
 
@@ -9,7 +10,7 @@ import { Contact } from '../models/contact.model';
 export class ContactsService {
 
   //  API
-  apiURL = 'https://localhost:5001';
+  apiURL = environment.api_url;
 
   constructor(private http: HttpClient) { }
 
