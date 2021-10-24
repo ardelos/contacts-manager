@@ -26,7 +26,7 @@ jobs:
         run: |
           dotnet restore ContactsManager.API
           dotnet build ContactsManager.API --configuration Release
-          dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/contactsmanager' 
+          dotnet publish ContactsManager.API -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/contactsmanager' 
           
       # Deploy to Azure Web apps
       - name: 'Run Azure webapp deploy action using publish profile credentials'
