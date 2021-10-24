@@ -49,8 +49,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ env.NODE_VERSION }}
-    - name: Install dependencies
-      run: cd ${{ env.AZURE_WEBAPP_PATH_WEB }}
     - name : Install
       run: |
         cd ${{ env.AZURE_WEBAPP_PATH_WEB }}
